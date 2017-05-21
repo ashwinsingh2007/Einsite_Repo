@@ -161,7 +161,7 @@ app.post('/stock', function(req, res) {
 })
 app.get('/getCompanyDetails', function(req, res) {
     try{
-        if(_session==true){
+        if(!!req.session.user){
             db.getCompanyDetails(res,function(result){
                 if(result){               
                 }
@@ -175,7 +175,7 @@ app.get('/getCompanyDetails', function(req, res) {
 
 app.get('/getCompanyDetailsByName', function(req, res) {
     try{
-        if(_session==true){
+        if(!!req.session.user){
             db.getCompanyDetailsByName(res,function(result){
                 if(result){               
                 }
