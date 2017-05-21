@@ -80,8 +80,10 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-
-        <div id="page-wrapper">
+        <div class="container" id="throbber" style="display:none;text-align: center;margin-top: 100px;">
+            <img src="http://vis.stanford.edu/projects/immens/demo/faa/resources/loading-blue.gif" style="width:100px" />
+        </div>
+        <div id="page-wrapper" class="MainContent">
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-lg-6">
                     <h1 class="page-header">Analysis of Exchange</h1>
@@ -107,6 +109,50 @@
                         <div class="panel-body">
                             <div class="flot-chart">
                                 <div class="flot-chart-content" id="flot-line-chart"></div>
+                            </div>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <div class="col-lg-12">
+                    <h2 class="page-header">Choose any four ticker below to compare their Last Price and analyse </h2>
+                    <div class="col-md-3">
+                        <h5 style="margin: 40px 0 20px;color:crimson">Choose Ticker for Analysis Report *</h5>
+                        <select id="options1" class="form-control">
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="margin: 40px 0 20px;color:crimson">Choose Ticker for Analysis Report *</h5>
+                        <select id="options2" class="form-control">
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="margin: 40px 0 20px;color:crimson">Choose Ticker for Analysis Report *</h5>
+                        <select id="options3" class="form-control" >
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 style="margin: 40px 0 20px;color:crimson">Choose Ticker for Analysis Report *</h5>
+                        <select id="options4" class="form-control">
+                        </select>
+                    </div>  
+                </div>
+                <br><br>
+                <div class="col-lg-12">
+                    <div class="col-lg-12" style="margin-top:10px;margin-bottom:10px;">
+                    <button class="btn btn-primary" onclick="generatereport()">Click to Analyse</button>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Line Chart for Prices for whole day (Working)
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="flot-chart">
+                                <div class="flot-chart-content" id="flot-line-chart-compare"></div>
                             </div>
                         </div>
                         <!-- /.panel-body -->
@@ -140,7 +186,7 @@
     </div>
     <!-- /#wrapper -->
     <script id="options_temp" type="text/html">
-    <option value="-1">None--</option>
+    <option value="-1">--None--</option>
     {{#.}}
         <option value="{{Name}}">{{Name}}</option>
     {{/.}}
@@ -169,18 +215,37 @@
     <script>
           $(document).ready(function() {
         debugger;
+        blockUI();
         var temp = $("#options_temp").html();
         var output = $("#options");
         var jsonData=null;
         $.get( "/getCompanyDetails", function( data ) {
             jsonData=data;
+            globalData=data;
             var html=Mustache.render(temp,jsonData);
             output.html(html);
+            $("#options1").html(html)
+            $("#options2").html(html)
+            $("#options3").html(html)
+            $("#options4").html(html)
+            unblockUI();
         });
 
 
 
     });
+    function blockUI()
+    {
+        $(".MainContent").hide();
+        $("#throbber").show();
+    }
+    function unblockUI()
+    {
+        
+        $("#throbber").hide();
+        $(".MainContent").show();
+        
+    }
 </script>
     
 

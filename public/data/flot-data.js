@@ -1,32 +1,136 @@
 //Flot Line Chart
+var globalData=null;;
+var generatereport = function(){
+    var a=[],a1=[],a2=[],a3=[],a4=[];
+    var name1=$("#options1").val();
+    var name2=$("#options2").val();
+    var name3=$("#options3").val();
+    var name4=$("#options4").val();
+    if(name1=="-1"||name2=="-1"||name3=="-1"||name2=="-1"){
+        alert("Please select all values !!")
+        return;
+    }
+    var index1,index2,index3,index4;
+    if(globalData==null){
+        $.get( "/getCompanyDetails", function( data ) {
+            globalData=data;
+            for(var i=0;i<globalData.length;i++){
+                if(globalData[i].Name === name1){
+                    index1=i;
+                }
+                if(globalData[i].Name === name2){
+                    index2=i;
+                }
+                if(globalData[i].Name === name3){
+                    index3=i;
+                }
+                if(globalData[i].Name === name4){
+                    index4=i;
+                }
+            }
+            a.push(globalData[index1].LP9);
+            a.push(globalData[index2].LP9);
+            a.push(globalData[index3].LP9);
+            a.push(globalData[index4].LP9);
+            plot(a,0,2);
+        });
+}
+else{
+        for(var i=0;i<globalData.length;i++){
+        if(globalData[i].Name === name1){
+            index1=i;
+        }
+        if(globalData[i].Name === name2){
+            index2=i;
+        }
+        if(globalData[i].Name === name3){
+            index3=i;
+        }
+        if(globalData[i].Name === name4){
+            index4=i;
+        }
+    }
+    a.push(globalData[index1].LP9);
+    a.push(globalData[index2].LP9);
+    a.push(globalData[index3].LP9);
+    a.push(globalData[index4].LP9);
+    a1.push(globalData[index1].LP9);
+    a1.push(globalData[index1].LP11);
+    a1.push(globalData[index1].LP13);
+    a1.push(globalData[index1].LP15);
+    a1.push(globalData[index1].LP17);
+    a1.push(globalData[index1].LP19);
+    a2.push(globalData[index2].LP9);
+    a2.push(globalData[index2].LP11);
+    a2.push(globalData[index2].LP13);
+    a2.push(globalData[index2].LP15);
+    a2.push(globalData[index2].LP17);
+    a2.push(globalData[index2].LP19);
+    a3.push(globalData[index3].LP9);
+    a3.push(globalData[index3].LP11);
+    a3.push(globalData[index3].LP13);
+    a3.push(globalData[index3].LP15);
+    a3.push(globalData[index3].LP17);
+    a3.push(globalData[index3].LP19);
+    a4.push(globalData[index4].LP9);
+    a4.push(globalData[index4].LP11);
+    a4.push(globalData[index4].LP13);
+    a4.push(globalData[index4].LP15);
+    a4.push(globalData[index4].LP17);
+    a4.push(globalData[index4].LP19);
+    plot(a,0,0,2,a1,a2,a3,a4,index1,index2,index3,index4);
+}
+
+
+    
+}
 var getData = function(){
     debugger;
     var name=$("#options").val();
     flotLine(name);
-    
 }
 var flotLine=function(Name){
     var offset = 0;
-    $.get( "/getCompanyDetails", function( data ) {
-        var index=0;
-        for(var i=0;i<data.length;i++){
-            if(data[i].Name === Name){
-                index=i;
+    if(globalData==null){
+        $.get( "/getCompanyDetails", function( data ) {
+            globalData=data;
+            for(var i=0;i<globalData.length;i++){
+                if(globalData[i].Name === Name){
+                    index=i;
+                }
             }
+            var a=[];
+            a.push(globalData[index].LP9);
+            a.push(globalData[index].LP11);
+            a.push(globalData[index].LP13);
+            a.push(globalData[index].LP15);
+            a.push(globalData[index].LP17);
+            a.push(globalData[index].LP19);
+            plot(a,offset,1);
+            movLine(a);
+        });
+    }
+    else{
+    for(var i=0;i<globalData.length;i++){
+        if(globalData[i].Name === Name){
+            index=i;
         }
-        var a=[];
-        a.push(data[index].LP9);
-        a.push(data[index].LP11);
-        a.push(data[index].LP13);
-        a.push(data[index].LP15);
-        a.push(data[index].LP17);
-        a.push(data[index].LP19);
-        plot(a,offset);
-        movLine(a);
-    });
+    }
+    var a=[];
+    a.push(globalData[index].LP9);
+    a.push(globalData[index].LP11);
+    a.push(globalData[index].LP13);
+    a.push(globalData[index].LP15);
+    a.push(globalData[index].LP17);
+    a.push(globalData[index].LP19);
+    plot(a,index,offset,1);
+    movLine(a);
+    }
+
+
 }
 
-    var plot=function (a,offset) {
+    var plot=function (a,index,offset,check,a1,a2,a3,a4,index1,index2,index3,index4) {
         debugger;
         //var a=[0.7,0.12,0.32,1.2,2.3,3.42];
         var maxG=0;
@@ -40,10 +144,24 @@ var flotLine=function(Name){
             }
         }
         var flowChartArr = [];
-        for (var i = 0; i < 6; i++) {
-            flowChartArr.push([a[i], a[i]]);
+        var flowChartArr1 = [];
+        var flowChartArr2 = [];
+        var flowChartArr3 = [];
+        var flowChartArr4 = [];
+        if(check==1 || check==2){
+            for (var i = 0; i < 6; i++) {
+                flowChartArr.push([i, a[i]]);
+            }
         }
-
+        if(check==2){
+            for (var i = 0; i < 6; i++) {
+                flowChartArr1.push([i, a1[i]]);
+                flowChartArr2.push([i, a2[i]]);
+                flowChartArr3.push([i, a3[i]]);
+                flowChartArr4.push([i, a4[i]]);
+            }
+        }
+        
         var options = {
             series: {
                 lines: {
@@ -57,8 +175,8 @@ var flotLine=function(Name){
                 hoverable: true 
             },
             yaxis: {
-                min: minG,
-                max: maxG+5
+                min: minG-10,
+                max: maxG+10
             },
             xaxis: {
                mode: "time",
@@ -73,12 +191,32 @@ var flotLine=function(Name){
                 }
             }
         };
-
-        var plotObj = $.plot($("#flot-line-chart"), [{
-                data: flowChartArr,
-                label: " Last Price "
-            }],
+        var plotObj;
+        if(check==1){
+            plotObj = $.plot($("#flot-line-chart"), [{
+                    data: flowChartArr,
+                    label: globalData[index].Name
+                }],
             options);
+        }
+        if(check==2){
+            plotObj = $.plot($("#flot-line-chart-compare"), [{
+                    data: flowChartArr1,
+                    label: globalData[index1].Name
+                },{
+                    data: flowChartArr2,
+                    label: globalData[index2].Name
+                },{
+                    data: flowChartArr3,
+                    label: globalData[index3].Name
+                },{
+                    data: flowChartArr4,
+                    label: globalData[index4].Name
+                }
+                ],
+            options);
+        }
+
     }
 
 
