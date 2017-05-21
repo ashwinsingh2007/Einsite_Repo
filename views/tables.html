@@ -255,7 +255,7 @@
     });
 
     var fg=function(Symbol,name,sector,industry){
-        var url="http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A"+Symbol;
+        var url="https://cors-anywhere.herokuapp.com/http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A"+Symbol;
         $.get( url, function( data ) {
             data=data.toString().split('//')[1];
             data=JSON.parse(data);
