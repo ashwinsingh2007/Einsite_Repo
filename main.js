@@ -7,7 +7,7 @@ var Client = require('node-rest-client').Client;
 var db=require('./Models/CreateUsers');
 var app = express();
 app.use(cookieParser());
-app.use(sessionsexp({resave: true, saveUninitialized: true, secret: 'einsite', cookie: { maxAge: 60000 }}));
+app.use(sessionsexp({resave: true, saveUninitialized: true, secret: 'einsite', cookie: { maxAge: 600000 }}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
