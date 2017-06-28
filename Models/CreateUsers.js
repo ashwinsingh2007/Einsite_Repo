@@ -6,10 +6,10 @@ var mysql = require('mysql');
 //Config the host,user,password,database credentials here.
 var con = mysql.createPool({
     connectionLimit: 10,
-    host: "166.62.28.137",
-    user: "ashwinsingh2017",
-    password: "Ashw@ni2007",
-    database: "Wingify"
+    host: "",
+    user: "",
+    password: "",
+    database: ""
 });
 var CreateUsers = function(body,callback) {
     var firstname= body.firstname;
